@@ -49,7 +49,7 @@ class WindowUtils {
 
   static void showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showAlertDialog(
@@ -80,7 +80,11 @@ class WindowUtils {
                   onPressed(context);
                 }
               },
-              color: Theme.of(context).accentColor,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                //onPrimary: Colors.black,
+              ),
+              // olor: Theme.of(context).accentColor,
             ),
           ],
         );
@@ -91,8 +95,15 @@ class WindowUtils {
   static Widget genButton(BuildContext context, String name, var onPressed) {
     return Expanded(
         child: ElevatedButton(
-            color: Theme.of(context).accentColor,
-            textColor: Colors.white, // Theme.of(context).primaryColorLight,
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                textStyle: TextStyle(
+                  color: Colors.white, // Theme.of(context).primaryColorLight,
+                )
+                //onPrimary: Colors.black,
+                ),
+            // color: Theme.of(context).accentColor,
+            // textColor: Colors.white, // Theme.of(context).primaryColorLight,
             child: Text(name, textScaleFactor: 1.5),
             onPressed: onPressed) // RaisedButton Calculate
         ); //Expanded

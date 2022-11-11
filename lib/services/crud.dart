@@ -15,7 +15,7 @@ class CrudHelper {
   Future<int> addItem(Item item) async {
     String targetEmail = this.userData.targetEmail;
     if (targetEmail == this.userData.email) {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('$targetEmail-items')
           .add(item.toMap())
           .catchError((e) {
@@ -31,10 +31,10 @@ class CrudHelper {
   Future<int> updateItem(Item newItem) async {
     String targetEmail = this.userData.targetEmail;
     if (targetEmail == this.userData.email) {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('$targetEmail-items')
-          .document(newItem.id)
-          .updateData(newItem.toMap())
+          .doc(newItem.id)
+          .update(newItem.toMap())
           .catchError((e) {
         print(e);
         return 0;
@@ -48,9 +48,9 @@ class CrudHelper {
   Future<int> deleteItem(String itemId) async {
     String targetEmail = this.userData.targetEmail;
     if (targetEmail == this.userData.email) {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('$targetEmail-items')
-          .document(itemId)
+          .doc(itemId)
           .delete()
           .catchError((e) {
         print(e);
@@ -65,7 +65,7 @@ class CrudHelper {
   Stream<List<Item>> getItemStream() {
     String email = this.userData.targetEmail;
     print("Stream current target email $email");
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('$email-items')
         .orderBy('used', descending: true)
         .snapshots()
@@ -74,22 +74,22 @@ class CrudHelper {
 
   Future<Item> getItem(String field, String value) async {
     String email = this.userData.targetEmail;
-    QuerySnapshot itemSnapshots = await Firestore.instance
+    QuerySnapshot itemSnapshots = await FirebaseFirestore.instance
         .collection('$email-items')
         .where(field, isEqualTo: value)
-        .getDocuments()
+        .get()
         .catchError((e) {
       return null;
     });
 
-    if (itemSnapshots.documents.isEmpty) {
+    if (itemSnapshots.docs.isEmpty) {
       return null;
     }
-    DocumentSnapshot itemSnapshot = itemSnapshots.documents.first;
+    DocumentSnapshot itemSnapshot = itemSnapshots.docs.first;
 
-    if (itemSnapshot.data.isNotEmpty) {
-      Item item = Item.fromMapObject(itemSnapshot.data);
-      item.id = itemSnapshot.documentID;
+    if (itemSnapshot.data != null) {
+      Item item = Item.fromMapObject(itemSnapshot.data());
+      item.id = itemSnapshot.id;
       return item;
     } else {
       return null;
@@ -98,15 +98,15 @@ class CrudHelper {
 
   Future<Item> getItemById(String id) async {
     String email = this.userData.targetEmail;
-    DocumentSnapshot itemSnapshot = await Firestore.instance
-        .document('$email-items/$id')
+    DocumentSnapshot itemSnapshot = await FirebaseFirestore.instance
+        .doc('$email-items/$id')
         .get()
         .catchError((e) {
       return null;
     });
-    if (itemSnapshot.data?.isNotEmpty ?? false) {
-      Item item = Item.fromMapObject(itemSnapshot.data);
-      item.id = itemSnapshot.documentID;
+    if (itemSnapshot.data != null ?? false) {
+      Item item = Item.fromMapObject(itemSnapshot.data());
+      item.id = itemSnapshot.id;
       return item;
     } else {
       return null;
@@ -115,14 +115,14 @@ class CrudHelper {
 
   Future<List<Item>> getItems() async {
     String email = this.userData.targetEmail;
-    QuerySnapshot snapshots = await Firestore.instance
+    QuerySnapshot snapshots = await FirebaseFirestore.instance
         .collection('$email-items')
         .orderBy('used', descending: true)
-        .getDocuments();
-    List<Item> items = List<Item>();
-    snapshots.documents.forEach((DocumentSnapshot snapshot) {
-      Item item = Item.fromMapObject(snapshot.data);
-      item.id = snapshot.documentID;
+        .get();
+    List<Item> items = <Item>[];
+    snapshots.docs.forEach((DocumentSnapshot snapshot) {
+      Item item = Item.fromMapObject(snapshot.data());
+      item.id = snapshot.id;
       items.add(item);
     });
     return items;
@@ -131,7 +131,7 @@ class CrudHelper {
   // Item Transactions
   Stream<List<ItemTransaction>> getItemTransactionStream() {
     String email = this.userData.targetEmail;
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('$email-transactions')
         .where('signature', isEqualTo: email)
         .snapshots()
@@ -140,51 +140,51 @@ class CrudHelper {
 
   Future<List<ItemTransaction>> getItemTransactions() async {
     String email = this.userData.targetEmail;
-    QuerySnapshot snapshots = await Firestore.instance
+    QuerySnapshot snapshots = await FirebaseFirestore.instance
         .collection('$email-transactions')
         .where('signature', isEqualTo: email)
-        .getDocuments();
+        .get();
     return ItemTransaction.fromQuerySnapshot(snapshots);
   }
 
   Future<List<ItemTransaction>> getPendingTransactions() async {
     String email = this.userData.targetEmail;
     UserData user = await this.getUserData('email', email);
-    List roles = user.roles?.keys?.toList() ?? List();
+    List roles = user.roles?.keys?.toList() ?? [];
     print("roles $roles");
-    if (roles.isEmpty) return List<ItemTransaction>();
-    QuerySnapshot snapshots = await Firestore.instance
+    if (roles.isEmpty) return <ItemTransaction>[];
+    QuerySnapshot snapshots = await FirebaseFirestore.instance
         .collection('$email-transactions')
         .where('signature', whereIn: roles)
-        .getDocuments();
+        .get();
     return ItemTransaction.fromQuerySnapshot(snapshots);
   }
 
   Future<List<ItemTransaction>> getDueTransactions() async {
     String email = this.userData.targetEmail;
-    QuerySnapshot snapshots = await Firestore.instance
+    QuerySnapshot snapshots = await FirebaseFirestore.instance
         .collection('$email-transactions')
         .where('due_amount', isGreaterThan: 0.0)
-        .getDocuments();
+        .get();
     return ItemTransaction.fromQuerySnapshot(snapshots);
   }
 
   // Users
   Future<UserData> getUserData(String field, String value) async {
-    QuerySnapshot userDataSnapshots = await Firestore.instance
+    QuerySnapshot userDataSnapshots = await FirebaseFirestore.instance
         .collection('users')
         .where(field, isEqualTo: value)
-        .getDocuments()
+        .get()
         .catchError((e) {
       return null;
     });
-    if (userDataSnapshots.documents.isEmpty) {
+    if (userDataSnapshots.docs.isEmpty) {
       return null;
     }
-    DocumentSnapshot userDataSnapshot = userDataSnapshots.documents.first;
-    if (userDataSnapshot.data.isNotEmpty) {
-      UserData userData = UserData.fromMapObject(userDataSnapshot.data);
-      userData.uid = userDataSnapshot.documentID;
+    DocumentSnapshot userDataSnapshot = userDataSnapshots.docs.first;
+    if (userDataSnapshot.data != null) {
+      UserData userData = UserData.fromMapObject(userDataSnapshot.data());
+      userData.uid = userDataSnapshot.id;
       return userData;
     } else {
       return null;
@@ -192,8 +192,10 @@ class CrudHelper {
   }
 
   Future<UserData> getUserDataByUid(String uid) async {
-    DocumentSnapshot _userData =
-        await Firestore.instance.document('users/$uid').get().catchError((e) {
+    DocumentSnapshot _userData = await FirebaseFirestore.instance
+        .doc('users/$uid')
+        .get()
+        .catchError((e) {
       print("error getting userdata $e");
       return null;
     });
@@ -203,17 +205,17 @@ class CrudHelper {
       return null;
     }
 
-    UserData userData = UserData.fromMapObject(_userData.data);
+    UserData userData = UserData.fromMapObject(_userData.data());
     print("here we go $userData & roles ${userData.roles}");
     return userData;
   }
 
   Future<int> updateUserData(UserData userData) async {
     print("got userData and roles ${userData.toMap}");
-    await Firestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
-        .document(userData.uid)
-        .setData(userData.toMap())
+        .doc(userData.uid)
+        .set(userData.toMap())
         .catchError((e) {
       print(e);
       return 0;

@@ -84,10 +84,10 @@ class ItemTransaction {
   }
 
   static List<ItemTransaction> fromQuerySnapshot(QuerySnapshot snapshot) {
-    List<ItemTransaction> transactions = List<ItemTransaction>();
-    snapshot.documents.forEach((DocumentSnapshot doc) {
-      ItemTransaction transaction = ItemTransaction.fromMapObject(doc.data);
-      transaction.id = doc.documentID;
+    List<ItemTransaction> transactions = <ItemTransaction>[];
+    snapshot.docs.forEach((DocumentSnapshot doc) {
+      ItemTransaction transaction = ItemTransaction.fromMapObject(doc.data());
+      transaction.id = doc.id;
       transactions.add(transaction);
     });
     transactions.sort((a, b) {

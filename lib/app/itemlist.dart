@@ -24,7 +24,7 @@ class ItemListState extends State<ItemList> {
   static CrudHelper crudHelper;
   Stream<List<Item>> items;
   static List<Item> _itemsList;
-  List<Item> itemsList = List<Item>();
+  List<Item> itemsList = <Item>[];
   static UserData userData;
   bool showSearchBar = false;
 
@@ -97,7 +97,7 @@ class ItemListState extends State<ItemList> {
                       ),
                       title: _getNameAndPrice(context, item),
                       subtitle: Text(item.nickName ?? '',
-                          style: localTheme.textTheme.body1),
+                          style: localTheme.textTheme.bodyLarge),
                       onTap: () {
                         this._showItemInfoDialog(item);
                       },
@@ -135,9 +135,10 @@ class ItemListState extends State<ItemList> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text(item.name, style: itemInfoTheme.textTheme.display1),
+                      Text(item.name,
+                          style: itemInfoTheme.textTheme.headlineMedium),
                       Text(item.nickName ?? '',
-                          style: itemInfoTheme.textTheme.subhead.copyWith(
+                          style: itemInfoTheme.textTheme.titleMedium.copyWith(
                             fontStyle: FontStyle.italic,
                           )),
                       Row(
@@ -164,7 +165,7 @@ class ItemListState extends State<ItemList> {
                           )),
                       SizedBox(height: 16.0),
                       Text("${item.description ?? ''}",
-                          style: itemInfoTheme.textTheme.body1),
+                          style: itemInfoTheme.textTheme.bodyLarge),
                     ]),
               ),
             ],
@@ -203,7 +204,7 @@ class ItemListState extends State<ItemList> {
   }
 
   static Widget _getNameAndPrice(BuildContext context, Item item) {
-    TextStyle nameStyle = Theme.of(context).textTheme.subhead;
+    TextStyle nameStyle = Theme.of(context).textTheme.titleMedium;
     String name = item.name;
     String markedPrice = item.markedPrice ?? '';
     String finalMarkedPrice = markedPrice.isEmpty ? "" : "Rs $markedPrice";
@@ -277,7 +278,7 @@ class ItemListState extends State<ItemList> {
                       ),
                       title: _getNameAndPrice(context, item),
                       subtitle: Text(item.nickName ?? '',
-                          style: localTheme.textTheme.body1),
+                          style: localTheme.textTheme.bodyLarge),
                       onTap: () {
                         this._showItemInfoDialog(item);
                       },

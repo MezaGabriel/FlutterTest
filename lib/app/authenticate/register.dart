@@ -22,7 +22,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    TextStyle textStyle = Theme.of(context).textTheme.titleLarge;
     return loading
         ? Loading()
         : Scaffold(
@@ -66,7 +66,12 @@ class _RegisterState extends State<Register> {
                       },
                     ),
                     ElevatedButton(
-                        color: Theme.of(context).colorScheme.secondary,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          //onPrimary: Colors.black,
+                        ),
+                        //color: Theme.of(context).colorScheme.secondary,
                         child: Text(
                           'Register',
                           style: TextStyle(color: Colors.white),

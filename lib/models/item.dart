@@ -152,10 +152,10 @@ class Item {
   }
 
   static List<Item> fromQuerySnapshot(QuerySnapshot snapshot) {
-    List<Item> items = List<Item>();
-    snapshot.documents.forEach((DocumentSnapshot doc) {
-      Item item = Item.fromMapObject(doc.data);
-      item.id = doc.documentID;
+    List<Item> items = <Item>[];
+    snapshot.docs.forEach((DocumentSnapshot doc) {
+      Item item = Item.fromMapObject(doc.data());
+      item.id = doc.id;
       items.add(item);
     });
     items.sort((a, b) {

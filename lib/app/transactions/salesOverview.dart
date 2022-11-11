@@ -13,7 +13,7 @@ class SalesOverview {
 
   static void showTransactions(appContext, infoMap) async {
     context = appContext;
-    nameStyle = Theme.of(context).textTheme.subhead;
+    nameStyle = Theme.of(context).textTheme.titleMedium;
     salesTransactionInfo = infoMap;
     debugPrint("sales transaction info recieved $infoMap");
     overViewMap = Map()..addAll(salesTransactionInfo);
@@ -50,8 +50,8 @@ class SalesOverview {
   }
 
   static List<DataRow> getDataRows(overViewMap) {
-    List<DataRow> dataRows = List();
-    List rowCells = List();
+    List<DataRow> dataRows = [];
+    List rowCells = [];
     int rowLength;
     int order = 0;
 
@@ -82,7 +82,7 @@ class SalesOverview {
   }
 
   static List<DataColumn> getDataColumns(overViewMap) {
-    List<DataColumn> dataCols = List();
+    List<DataColumn> dataCols = [];
     overViewMap.forEach((key, value) {
       dataCols.add(DataColumn(label: Text(key)));
     });
@@ -177,7 +177,7 @@ class SalesOverview {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Text("${transaction['date']}",
-                          style: itemInfoTheme.textTheme.subhead),
+                          style: itemInfoTheme.textTheme.titleMedium),
                       SizedBox(height: 16.0),
                       Row(
                         children: <Widget>[
@@ -209,7 +209,7 @@ class SalesOverview {
                           )),
                       SizedBox(height: 16.0),
                       Text("${transaction['description'] ?? ''}",
-                          style: itemInfoTheme.textTheme.subhead),
+                          style: itemInfoTheme.textTheme.titleMedium),
                     ]),
               ),
             ],

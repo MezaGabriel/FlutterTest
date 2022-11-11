@@ -86,12 +86,12 @@ class SettingState extends State<Setting> {
                           Container(
                             padding: EdgeInsets.all(10.0),
                             child: Text('App settings',
-                                style: localTheme.textTheme.title),
+                                style: localTheme.textTheme.titleLarge),
                           ),
 
                           Row(children: <Widget>[
                             Text("Enforce stock checking",
-                                style: localTheme.textTheme.subhead),
+                                style: localTheme.textTheme.titleMedium),
                             Checkbox(
                                 value: this.checkStock,
                                 onChanged: (bool val) {
@@ -102,7 +102,7 @@ class SettingState extends State<Setting> {
                           Container(
                             padding: EdgeInsets.all(10.0),
                             child: Text('Account settings',
-                                style: localTheme.textTheme.title),
+                                style: localTheme.textTheme.titleLarge),
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
@@ -137,10 +137,13 @@ class SettingState extends State<Setting> {
                               flex: 1,
                               child: Container(
                                   child: Text('Roles',
-                                      style: localTheme.textTheme.title)),
+                                      style: localTheme.textTheme.titleLarge)),
                             ),
                             ElevatedButton(
-                                color: Colors.blue[400],
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue[400],
+                                  //onPrimary: Colors.black,
+                                ),
                                 child: Text(
                                   'Add roles',
                                   style: TextStyle(color: Colors.white),
@@ -296,7 +299,11 @@ class SettingState extends State<Setting> {
                             }),
                         SizedBox(width: 20.0),
                         ElevatedButton(
-                            color: Colors.blue[400],
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue[400],
+                              //onPrimary: Colors.black,
+                            ),
+                            //color: Colors.blue[400],
                             child: Text(
                               'Add',
                               style: TextStyle(color: Colors.white),
@@ -314,7 +321,11 @@ class SettingState extends State<Setting> {
                               }
                             }),
                         ElevatedButton(
-                            color: Colors.red[400],
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red[400],
+                              //onPrimary: Colors.black,
+                            ),
+                            //color: Colors.red[400],
                             child: Text(
                               'Delete',
                               style: TextStyle(color: Colors.white),

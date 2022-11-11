@@ -22,7 +22,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    TextStyle textStyle = Theme.of(context).textTheme.titleLarge;
     return loading
         ? Loading()
         : Scaffold(
@@ -72,7 +72,12 @@ class _SignInState extends State<SignIn> {
 
                     SizedBox(height: 20.0),
                     ElevatedButton(
-                        color: Theme.of(context).accentColor,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          //onPrimary: Colors.black,
+                        ),
+                        //color: Theme.of(context).accentColor,
                         child: Text(
                           'Sign In',
                           style: TextStyle(color: Colors.white),

@@ -43,13 +43,13 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
 
   static CrudHelper crudHelper;
   static UserData userData;
-  List<Map> itemNamesAndNicknames = List<Map>();
+  List<Map> itemNamesAndNicknames = <Map>[];
   String disclaimerText = '';
   String stringUnderName = '';
   String tempItemId;
   bool enableAdvancedFields = false;
 
-  List units = List();
+  List units = [];
   String selectedUnit = '';
   TextEditingController itemNameController = TextEditingController();
   TextEditingController itemNumberController = TextEditingController();
@@ -85,7 +85,7 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
     }
     if (this.widget.swipeData != null) {
       Item item = this.widget.swipeData;
-      this.units = item.units?.keys?.toList() ?? List();
+      this.units = item.units?.keys?.toList() ?? [];
       if (this.units.isNotEmpty) {
         this.units.add('');
       }
@@ -129,7 +129,7 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
   }
 
   Widget buildForm(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    TextStyle textStyle = Theme.of(context).textTheme.titleLarge;
 
     debugPrint("making build form");
     return Column(children: <Widget>[
@@ -362,7 +362,7 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
       if (item == null) {
         this.stringUnderName = 'Unregistered name';
         this.tempItemId = null;
-        setState(() => this.units = List());
+        setState(() => this.units = []);
       } else {
         this.stringUnderName = '';
         this.tempItemId = item.id;
@@ -381,7 +381,7 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
     this.descriptionController.text = '';
     this.duePriceController.text = '';
     this.enableAdvancedFields = false;
-    this.units = List();
+    this.units = [];
     this.selectedUnit = '';
     this.transaction = ItemTransaction(0, null, 0.0, 0.0, '');
   }
@@ -391,7 +391,7 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
       this.units = item.units.keys.toList();
       this.units.add('');
     } else {
-      this.units = List();
+      this.units = [];
     }
   }
 
@@ -519,7 +519,7 @@ class _SalesEntryFormState extends State<SalesEntryForm> {
 
   void _initializeItemNamesAndNicknamesMapCache() async {
     Map itemMap = await StartupCache().itemMap;
-    List<Map> cacheItemAndNickNames = List<Map>();
+    List<Map> cacheItemAndNickNames = <Map>[];
     if (itemMap.isNotEmpty) {
       itemMap.forEach((key, value) {
         Map nameNickNameMap = {'name': value.first, 'nickName': value.last};

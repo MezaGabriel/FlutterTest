@@ -42,10 +42,10 @@ class _StockEntryFormState extends State<StockEntryForm> {
   String stringUnderName = '';
   String _currentFormSelected;
   String tempItemId;
-  List<Map> itemNamesAndNicknames = List<Map>();
+  List<Map> itemNamesAndNicknames = <Map>[];
   bool enableAdvancedFields = false;
 
-  List units = List();
+  List units = [];
   String selectedUnit = '';
   TextEditingController itemNameController = TextEditingController();
   TextEditingController itemNumberController = TextEditingController();
@@ -80,7 +80,7 @@ class _StockEntryFormState extends State<StockEntryForm> {
 
     if (this.widget.swipeData != null) {
       Item item = this.widget.swipeData;
-      this.units = item.units?.keys?.toList() ?? List();
+      this.units = item.units?.keys?.toList() ?? [];
       if (this.units.isNotEmpty) {
         this.units.add('');
       }
@@ -121,7 +121,7 @@ class _StockEntryFormState extends State<StockEntryForm> {
   }
 
   Widget buildForm(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    TextStyle textStyle = Theme.of(context).textTheme.titleLarge;
 
     return Column(children: <Widget>[
       DropdownButton<String>(
@@ -330,7 +330,7 @@ class _StockEntryFormState extends State<StockEntryForm> {
         debugPrint("Update item name got snapshot $item");
         this.stringUnderName = 'Unregistered item';
         this.tempItemId = null;
-        setState(() => this.units = List());
+        setState(() => this.units = []);
       } else {
         this.stringUnderName = '';
         this.tempItemId = item.id;
@@ -361,7 +361,7 @@ class _StockEntryFormState extends State<StockEntryForm> {
     this.duePriceController.text = '';
     this.descriptionController.text = '';
     this.enableAdvancedFields = false;
-    this.units = List();
+    this.units = [];
     this.selectedUnit = '';
     this.transaction = ItemTransaction(1, null, 0.0, 0.0, '');
   }
@@ -371,7 +371,7 @@ class _StockEntryFormState extends State<StockEntryForm> {
       this.units = item.units.keys.toList();
       this.units.add('');
     } else {
-      this.units = List();
+      this.units = [];
     }
   }
 
@@ -501,7 +501,7 @@ class _StockEntryFormState extends State<StockEntryForm> {
 
   void _initializeItemNamesAndNicknamesMapCache() async {
     Map itemMap = await StartupCache().itemMap;
-    List<Map> cacheItemAndNickNames = List<Map>();
+    List<Map> cacheItemAndNickNames = <Map>[];
     if (itemMap.isNotEmpty) {
       itemMap.forEach((key, value) {
         Map nameNickNameMap = {'name': value.first, 'nickName': value.last};

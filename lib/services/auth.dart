@@ -31,9 +31,9 @@ class AuthService {
   // sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+      FirebaseUser result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      FirebaseUser user = result;
       return user;
     } catch (error) {
       print(error.toString());
@@ -44,12 +44,11 @@ class AuthService {
   // register with email and password
   Future register(String email, String password) async {
     try {
-      AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
+      FirebaseUser result = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      FirebaseUser user = result;
       // create a new document for the user with the uid
-      UserData duplicate =
-          await CrudHelper().getUserData('email', user.email);
+      UserData duplicate = await CrudHelper().getUserData('email', user.email);
       if (duplicate != null) {
         print("duplicate email");
         return null;

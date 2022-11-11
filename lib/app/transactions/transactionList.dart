@@ -196,13 +196,13 @@ class TransactionListState extends State<TransactionList> {
       return;
     }
 
-    List<String> names = List();
-    List<int> items = List();
-    List<double> costPrices = List();
-    List<double> sellingPrices = List();
-    List<double> profits = List();
-    List<double> dueAmounts = List();
-    List<String> dates = List();
+    List<String> names = [];
+    List<int> items = [];
+    List<double> costPrices = [];
+    List<double> sellingPrices = [];
+    List<double> profits = [];
+    List<double> dueAmounts = [];
+    List<String> dates = [];
 
     Map overViewMap = Map();
 
@@ -265,15 +265,15 @@ class TransactionListState extends State<TransactionList> {
           flex: 1,
           child: Column(children: <Widget>[
             Text("$action: $itemNo units\n$itemName",
-                style: localTheme.textTheme.subhead),
+                style: localTheme.textTheme.titleMedium),
           ])),
       Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 10.0, width: 1.0),
           Text(dayYear,
-              style: localTheme.textTheme.body1.copyWith(fontSize: 10.0)),
-          Text(time, style: localTheme.textTheme.body2),
+              style: localTheme.textTheme.bodyMedium.copyWith(fontSize: 10.0)),
+          Text(time, style: localTheme.textTheme.bodyLarge),
         ],
       ),
     ]);

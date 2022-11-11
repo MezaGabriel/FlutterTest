@@ -107,13 +107,13 @@ class _MonthlyHistoryState extends State<MonthlyHistory> {
       Expanded(
           flex: 1,
           child: Column(children: <Widget>[
-            Text("Sales", style: localTheme.textTheme.subhead),
+            Text("Sales", style: localTheme.textTheme.titleMedium),
             Text("Rs. $sales"),
           ])),
       Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text("Profit", style: localTheme.textTheme.subhead),
+          Text("Profit", style: localTheme.textTheme.titleMedium),
           Text("Rs. $profit"),
         ],
       ),

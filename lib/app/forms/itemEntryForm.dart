@@ -84,7 +84,7 @@ class _ItemEntryFormState extends State<ItemEntryForm> {
   }
 
   Widget buildForm(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    TextStyle textStyle = Theme.of(context).textTheme.titleLarge;
 
     return Column(children: <Widget>[
       DropdownButton<String>(
@@ -208,7 +208,10 @@ class _ItemEntryFormState extends State<ItemEntryForm> {
                             child: Text('Custom Units', style: textStyle)),
                       ),
                       ElevatedButton(
-                          color: Colors.blue[400],
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[400],
+                            //onPrimary: Colors.black,
+                          ),
                           child: Text(
                             'Add units',
                             style: TextStyle(color: Colors.white),
@@ -493,7 +496,10 @@ class _ItemEntryFormState extends State<ItemEntryForm> {
                             }),
                         SizedBox(width: 20.0),
                         ElevatedButton(
-                            color: Colors.blue[400],
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue[400],
+                              //onPrimary: Colors.black,
+                            ),
                             child: Text(
                               'Add',
                               style: TextStyle(color: Colors.white),
@@ -509,7 +515,11 @@ class _ItemEntryFormState extends State<ItemEntryForm> {
                               }
                             }),
                         ElevatedButton(
-                            color: Colors.red[400],
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red[400],
+                              //onPrimary: Colors.black,
+                            ),
+                            //color: Colors.red[400],
                             child: Text(
                               'Delete',
                               style: TextStyle(color: Colors.white),
