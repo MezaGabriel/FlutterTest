@@ -1,0 +1,4 @@
+#Sun Nov 13 22:02:50 ART 2022
+base.0=C\:\\Users\\gabim\\OneDrive\\Escritorio\\Projects\\Flutter-Inventory-App-master\\build\\app\\intermediates\\dex\\debug\\minifyDebugWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

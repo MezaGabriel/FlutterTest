@@ -1,0 +1,1 @@
+C:\Users\gabim\OneDrive\Escritorio\Projects\Flutter-Inventory-App-master\android\app\src\main\kotlin\com\example\androidx_template\MainActivity.kt

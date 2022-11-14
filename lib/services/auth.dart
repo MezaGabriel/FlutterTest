@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<UserData> _userDataFromUser(FirebaseUser user) async {
+  Future<UserData> _userDataFromUser(User user) async {
     if (user == null) {
       return null;
     }
@@ -17,7 +17,7 @@ class AuthService {
       return UserData(
           uid: user.uid,
           email: user.email,
-          verified: user.isEmailVerified,
+          verified: user.emailVerified,
           targetEmail: user.email);
     }
     return userData;
@@ -25,15 +25,15 @@ class AuthService {
 
   // auth change user stream
   Stream<UserData> get user {
-    return _firebaseAuth.onAuthStateChanged.asyncMap(_userDataFromUser);
+    return _firebaseAuth.authStateChanges().asyncMap(_userDataFromUser);
   }
 
   // sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      FirebaseUser result = await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result;
+      User user = result.user;
       return user;
     } catch (error) {
       print(error.toString());
@@ -44,9 +44,9 @@ class AuthService {
   // register with email and password
   Future register(String email, String password) async {
     try {
-      FirebaseUser result = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      FirebaseUser user = result;
+      UserCredential result = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      User user = result.user;
       // create a new document for the user with the uid
       UserData duplicate = await CrudHelper().getUserData('email', user.email);
       if (duplicate != null) {
@@ -58,7 +58,7 @@ class AuthService {
           uid: user.uid,
           targetEmail: user.email,
           email: user.email,
-          verified: user.isEmailVerified,
+          verified: user.emailVerified,
           roles: Map());
 
       await CrudHelper().updateUserData(userData);
